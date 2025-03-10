@@ -1,18 +1,29 @@
-# Switch2IDEA
+# Switch2JetBrain
+
+
+**基于 https://github.com/qczone/switch2idea项目**
+
+
+> 增加了根据项目和文件类型自动区分Pycharm和Idea的逻辑
+
+用于自己个人使用，所以代码修改主要考虑功能实现了就行
+
+
+
 
 [中文](README_zh.md)
 
 > 💡 Recommended to use with [Switch2Cursor](https://github.com/qczone/switch2cursor) in IDEA
 
-[![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/qczone.switch2idea?label=VS%20Marketplace&style=for-the-badge&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=qczone.switch2idea)
-[![Downloads](https://img.shields.io/visual-studio-marketplace/d/qczone.switch2idea?style=for-the-badge&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=qczone.switch2idea)
+[![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/qczone.Switch2JetBrain?label=VS%20Marketplace&style=for-the-badge&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=qczone.Switch2JetBrain)
+[![Downloads](https://img.shields.io/visual-studio-marketplace/d/qczone.Switch2JetBrain?style=for-the-badge&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=qczone.Switch2JetBrain)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
 ## 🔍 Project Overview
 
 A Cursor extension that enhances development efficiency by enabling smooth switching between Cursor and IDEA
 
-![Switch2IDEA Demo](images/switch-show.gif)
+![Switch2JetBrain Demo](images/switch-show.gif)
 
 ## 🌟 Features
 
@@ -36,8 +47,8 @@ A Cursor extension that enhances development efficiency by enabling smooth switc
 
 ### Method 1: Install from Extension Marketplace
 
-1. Click [here](https://marketplace.visualstudio.com/items?itemName=qczone.switch2idea) to install
-2. Search for "Switch2IDEA" in the Cursor extension marketplace and install
+1. Click [here](https://marketplace.visualstudio.com/items?itemName=qczone.Switch2JetBrain) to install
+2. Search for "Switch2JetBrain" in the Cursor extension marketplace and install
 
 ### Method 2: Local Installation
 
@@ -63,7 +74,7 @@ A Cursor extension that enhances development efficiency by enabling smooth switc
 
 ### Configuration
 
-Open Cursor settings, click `General` → `Editor` → `open editor settings` → `Extensions` → `Switch2IDEA` → `Idea Path`
+Open Cursor settings, click `General` → `Editor` → `open editor settings` → `Extensions` → `Switch2JetBrain` → `Idea Path`
 
 - macOS: Automatically traverses common IDEA installation paths
 - Windows: Default `C:\Program Files\JetBrains\IntelliJ IDEA\bin\idea64.exe`
@@ -84,7 +95,7 @@ Issues and Pull Requests are welcome to improve this extension.
 
 Please check the following steps:
 
-1. Open Cursor settings, click `General` → `Editor` → `open editor settings` → `Extensions` → `Switch2IDEA`
+1. Open Cursor settings, click `General` → `Editor` → `open editor settings` → `Extensions` → `Switch2JetBrain`
 2. Verify that Idea Path is correctly configured to IDEA's executable path
 
 ### 2. Does it support jumping to other IDEs?
@@ -97,7 +108,7 @@ You can configure IDE paths separately for each workspace:
 
 1. Open Cursor settings, click `General` → `Editor` → `open editor settings`
 2. Select the `Workspace` tab
-3. Navigate to `Extensions` → `Switch2IDEA` → `ideaPath`
+3. Navigate to `Extensions` → `Switch2JetBrain` → `ideaPath`
 4. Enter the IDE path needed for that project
 
 Configuration examples:
@@ -114,8 +125,8 @@ This project is licensed under the [MIT License](LICENSE)
 
 If you encounter issues or have suggestions, please provide feedback through:
 
-- [Submit GitHub Issue](https://github.com/qczone/switch2idea/issues) 
+- [Submit GitHub Issue](https://github.com/qczone/Switch2JetBrain/issues) 
 
 ## 🌟 Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=qczone/switch2idea&type=Date)](https://star-history.com/#qczone/switch2idea&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=qczone/Switch2JetBrain&type=Date)](https://star-history.com/#qczone/Switch2JetBrain&Date)

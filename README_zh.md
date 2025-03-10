@@ -1,18 +1,27 @@
-# Switch2IDEA
+# Switch2JetBrain
+
+**基于 https://github.com/qczone/switch2idea项目**
+
+
+> 增加了根据项目和文件类型自动区分Pycharm和Idea的逻辑
+
+用于自己个人使用，所以代码修改主要考虑功能实现了就行
+
+
 
 [English](README.md)
 
 > 💡 推荐在 IDEA 中配合 [Switch2Cursor](https://github.com/qczone/switch2cursor) 使用
 
-[![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/qczone.switch2idea?label=VS%20Marketplace&style=for-the-badge&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=qczone.switch2idea)
-[![Downloads](https://img.shields.io/visual-studio-marketplace/d/qczone.switch2idea?style=for-the-badge&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=qczone.switch2idea)
+[![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/qczone.Switch2JetBrain?label=VS%20Marketplace&style=for-the-badge&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=qczone.Switch2JetBrain)
+[![Downloads](https://img.shields.io/visual-studio-marketplace/d/qczone.Switch2JetBrain?style=for-the-badge&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=qczone.Switch2JetBrain)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
 ## 🔍 项目简介
 
 一个提升开发效率的 Cursor 扩展，让你在 Cursor 和 IDEA 之间实现丝滑切换
 
-![Switch2IDEA演示](images/switch-show.gif)
+![Switch2JetBrain演示](images/switch-show.gif)
 
 ## 🌟 功能特性
 
@@ -39,8 +48,8 @@
 
 ### 方式一：通过扩展市场安装
 
-1. 点击 [这里](https://marketplace.visualstudio.com/items?itemName=qczone.switch2idea) 安装
-2. 在 Cursor 扩展市场中搜索 "Switch2IDEA" 并安装
+1. 点击 [这里](https://marketplace.visualstudio.com/items?itemName=qczone.Switch2JetBrain) 安装
+2. 在 Cursor 扩展市场中搜索 "Switch2JetBrain" 并安装
 
 ### 方式二：本地安装
 
@@ -66,7 +75,7 @@
 
 ### 配置
 
-打开 Cursor 设置，点击 `General` → `Editor` → `open editor settings` → `Extensions` → `Switch2IDEA` → `Idea Path`
+打开 Cursor 设置，点击 `General` → `Editor` → `open editor settings` → `Extensions` → `Switch2JetBrain` → `Idea Path`
 
 - macOS：自动遍历 IDEA 常用安装路径
 - Windows：默认 `C:\Program Files\JetBrains\IntelliJ IDEA\bin\idea64.exe`
@@ -87,7 +96,7 @@
 
 请按以下步骤检查：
 
-1. 打开 Cursor 设置，点击 `General` → `Editor` → `open editor settings` → `Extensions` → `Switch2IDEA`
+1. 打开 Cursor 设置，点击 `General` → `Editor` → `open editor settings` → `Extensions` → `Switch2JetBrain`
 2. 确认 Idea Path 是否正确配置成 IDEA 的可执行文件路径
 
 ### 2. 是否支持跳转到其他 IDE？
@@ -100,7 +109,7 @@
 
 1. 打开 Cursor 设置，点击 `General` → `Editor` → `open editor settings`
 2. 选择 `Workspace` 标签页
-3. 导航到 `Extensions` → `Switch2IDEA` → `ideaPath`
+3. 导航到 `Extensions` → `Switch2JetBrain` → `ideaPath`
 4. 输入该项目需要使用的 IDE 路径
 
 示例配置：
@@ -117,8 +126,8 @@
 
 如果遇到问题或有建议，请通过以下方式反馈：
 
-- [提交 GitHub Issue](https://github.com/qczone/switch2idea/issues)
+- [提交 GitHub Issue](https://github.com/qczone/Switch2JetBrain/issues)
 
 ## 🌟 Star 历史
 
-[![Star History Chart](https://api.star-history.com/svg?repos=qczone/switch2idea&type=Date)](https://star-history.com/#qczone/switch2idea&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=qczone/Switch2JetBrain&type=Date)](https://star-history.com/#qczone/Switch2JetBrain&Date)

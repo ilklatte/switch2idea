@@ -3,22 +3,128 @@ import { exec } from 'child_process';
 import * as os from 'os';
 import * as fs from 'fs';
 
+/**
+ * 检测当前打开文件的类型
+ * @returns 返回当前打开文件的类型（扩展名）
+ */
+function detectCurrentFileType(): string | undefined {
+	const editor = vscode.window.activeTextEditor;
+	if (!editor) {
+		return undefined;
+	}
+
+	const filePath = editor.document.uri.fsPath;
+	const fileExtension = filePath.split('.').pop()?.toLowerCase();
+
+	return fileExtension;
+}
+
+/**
+ * 检测当前工程是Python项目还是Java项目
+ * @returns 'python' | 'java' | 'unknown'
+ */
+function detectProjectType(): string {
+	const workspaceFolders = vscode.workspace.workspaceFolders;
+	if (!workspaceFolders || workspaceFolders.length === 0) {
+		return 'unknown';
+	}
+
+	const projectPath = workspaceFolders[0].uri.fsPath;
+
+	// 检查是否存在Python项目特征文件
+	if (
+		fs.existsSync(`${projectPath}/requirements.txt`) ||
+		fs.existsSync(`${projectPath}/setup.py`) ||
+		fs.existsSync(`${projectPath}/Pipfile`) ||
+		fs.existsSync(`${projectPath}/pyproject.toml`)
+	) {
+		return 'python';
+	}
+
+	// 检查是否存在Java项目特征文件
+	if (
+		fs.existsSync(`${projectPath}/pom.xml`) ||
+		fs.existsSync(`${projectPath}/build.gradle`) ||
+		fs.existsSync(`${projectPath}/gradlew`) ||
+		fs.existsSync(`${projectPath}/.classpath`)
+	) {
+		return 'java';
+	}
+
+	// 如果没有明确的标志，尝试通过文件扩展名判断
+	try {
+		const files = fs.readdirSync(projectPath);
+		let javaCount = 0;
+		let pythonCount = 0;
+
+		for (const file of files) {
+			if (file.endsWith('.java')) {
+				javaCount++;
+			} else if (file.endsWith('.py')) {
+				pythonCount++;
+			}
+
+			// 如果找到足够的文件，提前返回结果
+			if (javaCount > 5) {
+				return 'java';
+			}
+			if (pythonCount > 5) {
+				return 'python';
+			}
+		}
+
+		// 根据文件数量比较
+		if (javaCount > pythonCount) {
+			return 'java';
+		} else if (pythonCount > javaCount) {
+			return 'python';
+		}
+	} catch (error) {
+		console.error('检测项目类型时出错:', error);
+	}
+
+	return 'unknown';
+}
+
 function getMacIdeaPath(): string {
-	const commonPaths = [
+	const ideaPaths = [
 		'/Applications/IDEA.app',
 		'/Applications/IntelliJ IDEA.app',
 		'/Applications/IntelliJ IDEA CE.app',
 		'/Applications/IntelliJ IDEA Ultimate.app',
-		'/Applications/IntelliJ IDEA Community Edition.app', 
+		'/Applications/IntelliJ IDEA Community Edition.app',
 		`${os.homedir()}/Applications/IDEA.app`,
 		`${os.homedir()}/Applications/IntelliJ IDEA.app`,
 		`${os.homedir()}/Applications/IntelliJ IDEA CE.app`,
 		`${os.homedir()}/Applications/IntelliJ IDEA Ultimate.app`,
 		`${os.homedir()}/Applications/IntelliJ IDEA Community Edition.app`,
 	];
+	const pycharmPaths = [
+		`/Applications/PyCharm Community Edition.app`,
+		`/Applications/PyCharm Professional Edition.app`,
+		`${os.homedir()}/Applications/PyCharm Community Edition.app`,
+		`${os.homedir()}/Applications/PyCharm Professional Edition.app`,
+	];
+
+	const commonPaths = {
+		'idea': ideaPaths,
+		'pycharm': pycharmPaths,
+	};
+
+	const projectType = detectProjectType();
+	const fileType = detectCurrentFileType();
+
+	var paths: string[] = [];
+	if (projectType === 'unknown') {
+		return 'IntelliJ IDEA';
+	} else if (projectType === 'python' || fileType === 'py') {
+		paths = commonPaths.pycharm;
+	} else if (projectType === 'java' || fileType === 'java') {
+		paths = commonPaths.idea;
+	}
 
 	// Iterate through all possible IDEA installation paths and return the first existing path
-	for (const path of commonPaths) {
+	for (const path of paths) {
 		if (fs.existsSync(path)) {
 			return path;
 		}
@@ -59,9 +165,9 @@ function executeCommand(command: string): Promise<void> {
 
 export function activate(context: vscode.ExtensionContext) {
 
-	console.log('Switch2IDEA is now active!');
+	console.log('Switch2JetBrains is now active!');
 
-	let openFileDisposable = vscode.commands.registerCommand('Switch2IDEA.openFileInIDEA', async (uri?: vscode.Uri) => {
+	let openFileDisposable = vscode.commands.registerCommand('Switch2JetBrains.openFileInJetBrains', async (uri?: vscode.Uri) => {
 		let filePath: string;
 		let line = 1;
 		let column = 1;
@@ -84,7 +190,7 @@ export function activate(context: vscode.ExtensionContext) {
 			column = editor.selection.active.character;
 		}
 
-		const config = vscode.workspace.getConfiguration('switch2idea');
+		const config = vscode.workspace.getConfiguration('switch2jetbrains');
 		let ideaPath = config.get<string>('ideaPath');
 
 		if (!ideaPath) {
@@ -117,7 +223,7 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
-	let openProjectDisposable = vscode.commands.registerCommand('Switch2IDEA.openProjectInIDEA', async () => {
+	let openProjectDisposable = vscode.commands.registerCommand('Switch2JetBrains.openProjectInJetBrains', async () => {
 		const workspaceFolders = vscode.workspace.workspaceFolders;
 		if (!workspaceFolders || workspaceFolders.length === 0) {
 			vscode.window.showErrorMessage('No workspace folder is opened!');
@@ -126,7 +232,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		const projectPath = workspaceFolders[0].uri.fsPath;
 
-		const config = vscode.workspace.getConfiguration('switch2idea');
+		const config = vscode.workspace.getConfiguration('switch2jetbrains');
 		let ideaPath = config.get<string>('ideaPath');
 
 		if (!ideaPath) {

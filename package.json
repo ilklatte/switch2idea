@@ -1,6 +1,6 @@
 {
-  "name": "switch2idea",
-  "displayName": "Switch2IDEA",
+  "name": "switch2jetbrains",
+  "displayName": "Switch2JetBrains",
   "description": "Quickly switch between VS Code and IntelliJ IDEA, open current file in IDEA with the same position",
   "version": "1.0.3",
   "publisher": "qczone",
@@ -31,31 +31,31 @@
   "contributes": {
     "commands": [
       {
-        "command": "Switch2IDEA.openFileInIDEA",
-        "title": "Open File in IDEA"
+        "command": "Switch2JetBrains.openFileInJetBrains",
+        "title": "Open File in JetBrains"
       },
       {
-        "command": "Switch2IDEA.openProjectInIDEA",
-        "title": "Open Project in IDEA"
+        "command": "Switch2JetBrains.openProjectInJetBrains",
+        "title": "Open Project in JetBrains"
       }
     ],
     "keybindings": [
       {
-        "command": "Switch2IDEA.openFileInIDEA",
+        "command": "Switch2JetBrains.openFileInJetBrains",
         "key": "alt+shift+o",
         "mac": "alt+shift+o",
         "when": "editorTextFocus"
       },
       {
-        "command": "Switch2IDEA.openProjectInIDEA",
+        "command": "Switch2JetBrains.openProjectInJetBrains",
         "key": "alt+shift+p",
         "mac": "alt+shift+p"
       }
     ],
     "configuration": {
-      "title": "Switch2IDEA",
+      "title": "Switch2JetBrains",
       "properties": {
-        "switch2idea.ideaPath": {
+        "Switch2JetBrains.ideaPath": {
           "type": "string",
           "default": "",
           "description": "IDEA executable path"
@@ -65,17 +65,17 @@
     "menus": {
       "editor/context": [
         {
-          "command": "Switch2IDEA.openFileInIDEA",
+          "command": "Switch2JetBrains.openFileInJetBrains",
           "group": "navigation"
         }
       ],
       "explorer/context": [
         {
-          "command": "Switch2IDEA.openFileInIDEA",
+          "command": "Switch2JetBrains.openFileInJetBrains",
           "group": "navigation"
         },
         {
-          "command": "Switch2IDEA.openProjectInIDEA",
+          "command": "Switch2JetBrains.openProjectInJetBrains",
           "group": "navigation"
         }
       ]

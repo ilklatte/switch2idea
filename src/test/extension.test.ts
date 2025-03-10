@@ -4,11 +4,11 @@ import * as os from 'os';
 import * as path from 'path';
 import * as fs from 'fs';
 
-suite('Switch2IDEA Extension Test Suite', () => {
+suite('Switch2JetBrains Extension Test Suite', () => {
 	// 在所有测试开始前激活扩展
 	suiteSetup(async () => {
 		// 等待扩展激活
-		const extension = vscode.extensions.getExtension('qczone.switch2idea');
+		const extension = vscode.extensions.getExtension('qczone.Switch2JetBrains');
 		if (extension) {
 			if (!extension.isActive) {
 				await extension.activate();
@@ -18,7 +18,7 @@ suite('Switch2IDEA Extension Test Suite', () => {
 
 	test('Extension should be present', async () => {
 		// 获取扩展并等待激活
-		const extension = vscode.extensions.getExtension('qczone.switch2idea');
+		const extension = vscode.extensions.getExtension('qczone.Switch2JetBrains');
 		assert.ok(extension, 'Extension should be installed');
 		
 		if (!extension.isActive) {
@@ -30,12 +30,12 @@ suite('Switch2IDEA Extension Test Suite', () => {
 	test('Should register open in IDEA command', () => {
 		const commands = vscode.commands.getCommands(true);
 		return commands.then((cmds) => {
-			assert.ok(cmds.includes('Switch2IDEA.openInIDEA'));
+			assert.ok(cmds.includes('Switch2JetBrains.openInIDEA'));
 		});
 	});
 
 	test('Should have correct configuration', () => {
-		const config = vscode.workspace.getConfiguration('switch2idea');
+		const config = vscode.workspace.getConfiguration('Switch2JetBrains');
 		assert.ok(config.has('ideaPath'));
 		assert.ok(config.has('keyboardShortcut'));
 		assert.strictEqual(config.get('keyboardShortcut'), 'alt+shift+o');
@@ -56,7 +56,7 @@ suite('Switch2IDEA Extension Test Suite', () => {
 			const editor = await vscode.window.showTextDocument(doc);
 
 			// Execute command
-			await vscode.commands.executeCommand('Switch2IDEA.openInIDEA');
+			await vscode.commands.executeCommand('Switch2JetBrains.openInIDEA');
 
 			// Verify command execution completed without errors
 			// Note: We cannot verify if IDEA actually opened the file as it's an external process
@@ -90,7 +90,7 @@ suite('Switch2IDEA Extension Test Suite', () => {
 			editor.selection = new vscode.Selection(position, position);
 
 			// Execute command
-			await vscode.commands.executeCommand('Switch2IDEA.openInIDEA');
+			await vscode.commands.executeCommand('Switch2JetBrains.openInIDEA');
 
 			// Verify command execution completed without errors
 			assert.ok(true);
@@ -106,14 +106,14 @@ suite('Switch2IDEA Extension Test Suite', () => {
 
 	test('Should handle non-existent ideaPath gracefully', async () => {
 		// Temporarily set a non-existent ideaPath
-		const config = vscode.workspace.getConfiguration('switch2idea');
+		const config = vscode.workspace.getConfiguration('Switch2JetBrains');
 		const originalPath = config.get('ideaPath');
 		
 		try {
 			await config.update('ideaPath', 'non-existent-path', vscode.ConfigurationTarget.Global);
 			
 			// Execute command
-			await vscode.commands.executeCommand('Switch2IDEA.openInIDEA');
+			await vscode.commands.executeCommand('Switch2JetBrains.openInIDEA');
 			
 			// Command should complete without crashing
 			assert.ok(true);
