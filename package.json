@@ -2,7 +2,7 @@
   "name": "switch2jetbrains",
   "displayName": "Switch2JetBrains",
   "description": "Quickly switch between VS Code and IntelliJ IDEA, open current file in IDEA with the same position",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "publisher": "qczone",
   "license": "MIT",
   "repository": {
@@ -55,10 +55,25 @@
     "configuration": {
       "title": "Switch2JetBrains",
       "properties": {
-        "Switch2JetBrains.ideaPath": {
+        "switch2jetbrains.ideaPath": {
           "type": "string",
           "default": "",
           "description": "IDEA executable path"
+        },
+        "switch2jetbrains.eapIdeaPath": {
+          "type": "string",
+          "default": "",
+          "description": "EAP IDEA executable path"
+        },
+        "switch2jetbrains.useIdeaEAP": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use Idea EAP when true"
+        },
+        "switch2jetbrains.pycharmPath": {
+          "type": "string",
+          "default": "",
+          "description": "Pycharm executable path"
         }
       }
     },
@@ -93,15 +108,19 @@
   },
   "packageManager": "pnpm@9.6.0",
   "devDependencies": {
-    "@types/vscode": "^1.93.1",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
+    "@types/vscode": "^1.93.1",
     "@typescript-eslint/eslint-plugin": "^8.17.0",
     "@typescript-eslint/parser": "^8.17.0",
-    "eslint": "^9.16.0",
-    "typescript": "^5.7.2",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
-    "@vscode/vsce": "^3.2.1"
+    "@vscode/vsce": "^3.2.1",
+    "eslint": "^9.16.0",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "webpack": "^5.99.5",
+    "webpack-cli": "^6.0.1"
   }
 }

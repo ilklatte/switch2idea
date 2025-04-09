@@ -86,7 +86,7 @@ function detectProjectType(): string {
 	return 'unknown';
 }
 
-function getMacIdeaPath(): string {
+function getMacIdeaPath(fileType: string | undefined, projectType: string): string {
 	const ideaPaths = [
 		'/Applications/IDEA.app',
 		'/Applications/IntelliJ IDEA.app',
@@ -110,9 +110,6 @@ function getMacIdeaPath(): string {
 		'idea': ideaPaths,
 		'pycharm': pycharmPaths,
 	};
-
-	const projectType = detectProjectType();
-	const fileType = detectCurrentFileType();
 
 	var paths: string[] = [];
 	if (projectType === 'unknown') {
@@ -163,6 +160,32 @@ function executeCommand(command: string): Promise<void> {
 	});
 }
 
+function getIdeaPath(config: vscode.WorkspaceConfiguration, fileType: string | undefined, projectType: string): string {
+	let ideaPath = config.get<string>('switch2jetbrains.ideaPath');
+	let eapIdeaPath = config.get<string>('switch2jetbrains.eapIdeaPath') 
+	let useIdeaEAP = config.get<boolean>('switch2jetbrains.useIdeaEAP') 
+	let pycharmPath = config.get<string>('switch2jetbrains.pycharmPath')
+
+	if (projectType === 'python' || fileType === 'py') {
+		ideaPath = pycharmPath;
+	} else if (projectType === 'java' || fileType === 'java') {
+		if (useIdeaEAP && eapIdeaPath) {
+			ideaPath = eapIdeaPath;
+		}
+	}
+	if (!ideaPath) {
+		if (os.platform() === 'darwin') {
+			ideaPath = getMacIdeaPath(fileType, projectType);
+		} else if (os.platform() === 'win32') {
+			ideaPath = 'C:\\Program Files\\JetBrains\\IntelliJ IDEA\\bin\\idea64.exe';
+		} else {
+			ideaPath = 'idea';
+		}
+	}
+	return ideaPath;
+}
+
+
 export function activate(context: vscode.ExtensionContext) {
 
 	console.log('Switch2JetBrains is now active!');
@@ -190,18 +213,11 @@ export function activate(context: vscode.ExtensionContext) {
 			column = editor.selection.active.character;
 		}
 
-		const config = vscode.workspace.getConfiguration('switch2jetbrains');
-		let ideaPath = config.get<string>('ideaPath');
+		const projectType = detectProjectType();
+		const fileType = detectCurrentFileType();
 
-		if (!ideaPath) {
-			if (os.platform() === 'darwin') {
-				ideaPath = getMacIdeaPath();
-			} else if (os.platform() === 'win32') {
-				ideaPath = 'C:\\Program Files\\JetBrains\\IntelliJ IDEA\\bin\\idea64.exe';
-			} else {
-				ideaPath = 'idea';
-			}
-		}
+		const config = vscode.workspace.getConfiguration();
+		let ideaPath = getIdeaPath(config, fileType, projectType)
 
 		let command: string;
 		if (os.platform() === 'darwin') {
@@ -232,19 +248,11 @@ export function activate(context: vscode.ExtensionContext) {
 
 		const projectPath = workspaceFolders[0].uri.fsPath;
 
-		const config = vscode.workspace.getConfiguration('switch2jetbrains');
-		let ideaPath = config.get<string>('ideaPath');
+		const projectType = detectProjectType();
+		const fileType = detectCurrentFileType();
 
-		if (!ideaPath) {
-			if (os.platform() === 'darwin') {
-				const macIdeaPath = getMacIdeaPath();
-				ideaPath = macIdeaPath || 'IntelliJ IDEA';
-			} else if (os.platform() === 'win32') {
-				ideaPath = 'C:\\Program Files\\JetBrains\\IntelliJ IDEA\\bin\\idea64.exe';
-			} else {
-				ideaPath = 'idea';
-			}
-		}
+		const config = vscode.workspace.getConfiguration();
+		let ideaPath = getIdeaPath(config, fileType, projectType)
 
 		let command: string;
 		if (os.platform() === 'darwin') {
