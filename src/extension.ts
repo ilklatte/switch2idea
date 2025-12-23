@@ -51,17 +51,27 @@ function detectProjectType(): string {
 		return 'java';
 	}
 
+	if (
+		fs.existsSync(`${projectPath}/go.mod`) ||
+		fs.existsSync(`${projectPath}/go.sub`)
+	) {
+		return 'go';
+	}
+
 	// 如果没有明确的标志，尝试通过文件扩展名判断
 	try {
 		const files = fs.readdirSync(projectPath);
 		let javaCount = 0;
 		let pythonCount = 0;
+		let goCount = 0;
 
 		for (const file of files) {
 			if (file.endsWith('.java')) {
 				javaCount++;
 			} else if (file.endsWith('.py')) {
 				pythonCount++;
+			} else if (file.endsWith('.go')) {
+				goCount++;
 			}
 
 			// 如果找到足够的文件，提前返回结果
@@ -71,6 +81,9 @@ function detectProjectType(): string {
 			if (pythonCount > 5) {
 				return 'python';
 			}
+			if (goCount > 5) {
+				return 'go'
+			}
 		}
 
 		// 根据文件数量比较
@@ -78,6 +91,8 @@ function detectProjectType(): string {
 			return 'java';
 		} else if (pythonCount > javaCount) {
 			return 'python';
+		} else if (goCount > javaCount) {
+			return 'go'
 		}
 	} catch (error) {
 		console.error('检测项目类型时出错:', error);
@@ -106,9 +121,15 @@ function getMacIdeaPath(fileType: string | undefined, projectType: string): stri
 		`${os.homedir()}/Applications/PyCharm Professional Edition.app`,
 	];
 
+	const golandPaths = [
+		`/Applications/GoLand.app`,
+		`${os.homedir()}/Applications/GoLand.app`,
+	]
+
 	const commonPaths = {
 		'idea': ideaPaths,
 		'pycharm': pycharmPaths,
+		'go': golandPaths,
 	};
 
 	var paths: string[] = [];
@@ -118,6 +139,8 @@ function getMacIdeaPath(fileType: string | undefined, projectType: string): stri
 		paths = commonPaths.pycharm;
 	} else if (projectType === 'java' || fileType === 'java') {
 		paths = commonPaths.idea;
+	} else if (projectType === 'go' || fileType === 'go') {
+		paths = commonPaths.go
 	}
 
 	// Iterate through all possible IDEA installation paths and return the first existing path
@@ -165,6 +188,7 @@ function getIdeaPath(config: vscode.WorkspaceConfiguration, fileType: string | u
 	let eapIdeaPath = config.get<string>('switch2jetbrains.eapIdeaPath') 
 	let useIdeaEAP = config.get<boolean>('switch2jetbrains.useIdeaEAP') 
 	let pycharmPath = config.get<string>('switch2jetbrains.pycharmPath')
+	let golandPath = config.get<string>('switch2jetbrains.golandPath')
 
 	if (projectType === 'python' || fileType === 'py') {
 		ideaPath = pycharmPath;
@@ -172,6 +196,8 @@ function getIdeaPath(config: vscode.WorkspaceConfiguration, fileType: string | u
 		if (useIdeaEAP && eapIdeaPath) {
 			ideaPath = eapIdeaPath;
 		}
+	} else if (projectType === 'go' || fileType == 'go') {
+		ideaPath = golandPath	
 	}
 	if (!ideaPath) {
 		if (os.platform() === 'darwin') {
